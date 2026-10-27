@@ -24,7 +24,9 @@ pop-ups don't appear.
    [install link](https://raw.githubusercontent.com/uvw/enhanced-amazon-storefront/main/enhanced-amazon-storefront.user.js)
    and click **Install**.
 
-The script updates itself when a new version is released.
+The script updates itself when a new version is released. A
+[minified build](https://github.com/uvw/enhanced-amazon-storefront/releases/latest/download/enhanced-amazon-storefront.min.user.js)
+is also available. Install one or the other, not both.
 
 ## Supported storefronts
 

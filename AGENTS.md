@@ -20,7 +20,11 @@ in place.
 - `CONTRIBUTING.md`: how to report bugs, propose enhancements and open a pull
   request.
 - `.github/ISSUE_TEMPLATE/`: bug report and enhancement request forms.
-- `package.json`: dev tooling only (Prettier, ESLint). Nothing from it ships.
+- `scripts/build.js`: writes the minified release build to `dist/`.
+- `.github/workflows/release.yml`: checks every push and pull request, and
+  publishes a release when `@version` changes on `main`.
+- `package.json`: dev tooling only (Prettier, ESLint, Terser). Nothing from it
+  ships.
 
 ## Decisions
 
@@ -28,7 +32,8 @@ Settled. Do not revisit these without the maintainer.
 
 1. **Stay a userscript until three or four enhancements exist.** Then convert to
    a Manifest V3 Chrome extension, likely with WXT. Until then, add no extension
-   scaffolding, settings UI or build step.
+   scaffolding or settings UI. The source runs as written; the minified release
+   build is the only build step.
 2. **`@grant none`.** The script runs in the page's own JavaScript context so it
    can call Amazon's globals (`$Nav`, `P`). Requesting any `GM_*` API moves the
    script into the manager's sandbox and breaks that access. Discuss before
@@ -126,11 +131,14 @@ Rules for agents testing against a real account:
 2. The maintainer commits to `main`. Outside contributions arrive as pull
    requests.
 3. Every push to `main` with a higher `@version` reaches every install within
-   about a day, through the raw `main` URL. Keep `main` releasable.
+   about a day. Full-script installs update from the raw `main` URL, minified
+   installs from the latest release. Keep `main` releasable.
 4. To release, bump `@version` in the userscript header and `version` in
-   `package.json` together, following semantic versioning. A new enhancement is
-   a minor bump, a fix is a patch. Push, then run
-   `gh release create vX.Y.Z enhanced-amazon-storefront.user.js --target main`.
+   `package.json` together, following semantic versioning, and push. A new
+   enhancement is a minor bump, a fix is a patch. The `Build and release`
+   workflow fails when the two versions differ. When the version has no tag yet,
+   it tags the commit and publishes a release with the full and minified
+   scripts, listing the commit subjects since the previous tag.
 
 ## Licensing
 
