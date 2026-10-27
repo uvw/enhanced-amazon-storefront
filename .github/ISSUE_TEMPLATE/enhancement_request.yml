@@ -1,0 +1,43 @@
+name: Enhancement request
+description: Suggest a new enhancement or a change to an existing one.
+labels: [enhancement]
+body:
+  - type: textarea
+    id: annoyance
+    attributes:
+      label: What bugs you
+      description: Describe the Amazon storefront behavior you want changed.
+      placeholder: Clicking Add to cart navigates away from the product page.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: What you want instead
+      description: Describe the behavior you'd like.
+    validations:
+      required: true
+  - type: input
+    id: pages
+    attributes:
+      label: Where it applies
+      description: Which pages or features of the storefront.
+      placeholder: Product pages, search results, cart
+  - type: checkboxes
+    id: fit
+    attributes:
+      label: Project fit
+      description:
+        See `Store-readiness rules` in AGENTS.md. Ideas that break these rules
+        can't ship as a Chrome extension.
+      options:
+        - label:
+            It improves shopping on the Amazon storefront and runs only on
+            Amazon pages.
+          required: true
+        - label:
+            It needs no data sent anywhere except to Amazon, and acts only when
+            I do something.
+          required: true
+        - label: It doesn't touch Buy Now, checkout or order placement.
+          required: true

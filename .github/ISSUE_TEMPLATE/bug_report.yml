@@ -1,0 +1,89 @@
+name: Bug report
+description: Something in the script misbehaves or stopped working.
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for the report. Please leave out anything personal: addresses, order numbers, payment details and account names.
+  - type: dropdown
+    id: feature
+    attributes:
+      label: Feature
+      description: Which enhancement is affected?
+      options:
+        - Stay on page after Add to cart
+        - Not sure
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Script version
+      description: Shown in your userscript manager's dashboard.
+      placeholder: 0.1.1
+    validations:
+      required: true
+  - type: dropdown
+    id: storefront
+    attributes:
+      label: Storefront
+      options:
+        - amazon.com
+        - amazon.ca
+        - amazon.com.mx
+        - amazon.co.uk
+        - amazon.de
+        - amazon.fr
+        - amazon.it
+        - amazon.es
+        - amazon.nl
+        - amazon.com.au
+    validations:
+      required: true
+  - type: dropdown
+    id: manager
+    attributes:
+      label: Userscript manager
+      options:
+        - Tampermonkey
+        - Violentmonkey
+        - Other
+    validations:
+      required: true
+  - type: input
+    id: browser
+    attributes:
+      label: Browser and version
+      placeholder: Chrome 142
+    validations:
+      required: true
+  - type: input
+    id: url
+    attributes:
+      label: Page URL
+      description: Strip tracking parameters. The `/dp/<ASIN>` part is enough.
+      placeholder: https://www.amazon.com/dp/B00MNV8E0C
+  - type: textarea
+    id: what-happened
+    attributes:
+      label: What happened
+      description: What did you expect, and what happened instead?
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      placeholder: |
+        1. Open a product page.
+        2. Pick a size.
+        3. Click Add to cart.
+  - type: textarea
+    id: console
+    attributes:
+      label: Console output
+      description:
+        Lines that start with `[Enhanced Amazon Storefront]`. Open DevTools with
+        F12, or Cmd+Option+J on a Mac.
+      render: text
