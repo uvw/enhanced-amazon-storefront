@@ -123,10 +123,18 @@ There are no automated tests. Verify every change in a real, signed-in browser.
 
 Rules for agents testing against a real account:
 
-1. Never click Buy Now, checkout or anything that places an order.
+1. Never click Place your order, Buy Now or anything else that places an order.
+   Click Proceed to checkout only with the maintainer's go-ahead, and touch
+   nothing on the checkout page.
 2. Record the cart's contents before testing. Afterwards, delete only the items
    you added and confirm the cart matches the starting state.
 3. Use a cheap, everyday item for add-to-cart tests.
+4. Keep automated page loads few and spaced out. A handful of quick automated
+   reloads is enough to trigger Amazon's "I am human" checkpoint.
+5. Prefer reading pages over driving them. For the final click-through, hand the
+   steps to the maintainer and check the result by reading the page.
+6. If the checkpoint appears, stop all browser automation and tell the
+   maintainer. Never click it or try to get around it.
 
 ## Commits and releases
 
