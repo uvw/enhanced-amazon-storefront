@@ -1,0 +1,13 @@
+# Shared markdownlint config — used by the CLI (`markdownlint-cli2`), the
+# format-code.sh hook, and the VS Code markdownlint extension.
+# Tuned to not fight Prettier, which owns wrapping and whitespace.
+default: true
+# Line length: Prettier's proseWrap handles wrapping.
+MD013: false
+# First line need not be a top-level heading (files may open with YAML
+# frontmatter or a lead paragraph, e.g. memory files).
+MD041: false
+# Allow repeated heading text under different parents (e.g. "## Why" in
+# several sections).
+MD024:
+  siblings_only: true

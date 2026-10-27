@@ -1,0 +1,39 @@
+# https://git-scm.com/docs/gitattributes
+# https://docs.github.com/en/get-started/getting-started-with-git/configuring-git-to-handle-line-endings
+
+# Set the default behavior, in case people don't have core.autocrlf set.
+* text=auto
+
+# Text
+*.js      text diff=javascript
+*.mjs     text diff=javascript
+*.json    text
+*.md      text diff=markdown
+*.html    text diff=html
+*.css     text diff=css
+*.yaml    text
+*.yml     text
+
+# Required LF/CRLF endings
+*.{sh,bash}  text eol=lf
+*.ps1        text eol=crlf
+*.{cmd,bat}  text eol=crlf
+
+# Lockfiles are generated; skip them in diffs
+package-lock.json  text -diff linguist-generated
+
+# Binaries and should not be modified
+*.ico   binary
+*.gif   binary
+*.png   binary
+*.jpg   binary
+*.jpeg  binary
+*.webp  binary
+*.pdf   binary
+*.zip   binary
+
+# Do not export specific dotfiles. The gitignore.io macOS rule `Icon\r` ends in
+# a literal carriage return that line-ending normalization would strip.
+.gitignore      -text export-ignore
+.gitattributes  text export-ignore
+.editorconfig   text export-ignore

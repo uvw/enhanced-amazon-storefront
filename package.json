@@ -1,0 +1,20 @@
+{
+  "name": "enhanced-amazon-storefront",
+  "version": "0.1.1",
+  "private": true,
+  "description": "Fixes small annoyances on the Amazon storefront.",
+  "type": "module",
+  "scripts": {
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "lint": "eslint .",
+    "check": "npm run format:check && npm run lint"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "eslint": "^10.13.0",
+    "globals": "^17.13.0",
+    "prettier": "^3.9.10"
+  },
+  "license": "MIT OR Apache-2.0"
+}
