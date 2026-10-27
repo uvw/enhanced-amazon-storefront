@@ -8,9 +8,12 @@ Enhanced Amazon Storefront is a userscript collection of fixes for small
 annoyances on the Amazon storefront. It runs in Tampermonkey or Violentmonkey
 and updates itself from the raw `main` URL in its `@updateURL`.
 
-The first enhancement is **Stay on page after Add to cart**. It posts the
-add-to-cart form with `fetch`, shows a toast and refreshes Amazon's cart sidebar
-in place.
+The enhancements, listed in `README.md`:
+
+- **Stay on page after Add to cart** posts the add-to-cart form with `fetch`,
+  shows a toast and refreshes Amazon's cart sidebar in place.
+- **Skip "Need anything else?" before checkout** replaces the `/checkout/byg`
+  upsell page with the checkout entry path, before the page renders.
 
 ## Repository layout
 
@@ -44,8 +47,9 @@ Settled. Do not revisit these without the maintainer.
 4. **Fail toward Amazon's standard flow.** When Amazon answers with something
    unexpected, an enhancement steps aside and offers the default behavior. It
    never leaves a dead button or a silent failure.
-5. **Never touch purchase paths.** No enhancement intercepts, automates or
-   submits Buy Now, checkout, one-click or order placement.
+5. **Never place an order.** No enhancement places, submits or confirms an
+   order, and none touches Buy Now or one-click. Skipping upsell pages on the
+   way to checkout is allowed; the shopper always clicks **Place your order**.
 6. **Key on stable identifiers, not text.** Match elements by `id`, `name` and
    `data-*` attributes, never by visible English text, so the script works on
    every storefront. Show Amazon's own localized strings from its responses

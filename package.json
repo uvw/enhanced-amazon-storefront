@@ -1,6 +1,6 @@
 {
   "name": "enhanced-amazon-storefront",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "private": true,
   "description": "Fixes small annoyances on the Amazon storefront.",
   "type": "module",
