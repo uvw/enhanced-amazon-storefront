@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         Enhanced Amazon Storefront
 // @namespace    https://github.com/uvw/enhanced-amazon-storefront
-// @version      0.1.1
-// @description  Fixes small annoyances on the Amazon storefront. Add to cart no longer leaves the product page.
+// @version      0.2.0
+// @description  Fixes small annoyances on the Amazon storefront, such as Add to cart leaving the product page and the upsell page before checkout.
 // @author       Max Kostovetski
 // @license      MIT OR Apache-2.0
 // @homepageURL  https://github.com/uvw/enhanced-amazon-storefront
@@ -202,6 +202,34 @@
     shell.style.opacity = busy ? "0.6" : "";
     shell.style.cursor = busy ? "progress" : "";
     button.setAttribute("aria-busy", String(busy));
+  }
+
+  // Skip "Need anything else?" before checkout
+
+  // The cart's Proceed to checkout lands on this upsell page first. Its
+  // Continue button goes to the checkout entry path with the same query.
+  const UPSELL_PATH = "/checkout/byg";
+  const CHECKOUT_ENTRY_PATH = "/checkout/entry/cart";
+  // Breaks a redirect loop if checkout ever sends the shopper back here.
+  const UPSELL_SKIPPED_KEY = "eas-upsell-skipped-at";
+  const UPSELL_LOOP_WINDOW_MS = 10000;
+
+  skipCheckoutUpsell();
+
+  function skipCheckoutUpsell() {
+    if (!location.pathname.startsWith(UPSELL_PATH)) return;
+    // The page names its checkout destination here. Without it, this is not
+    // the flow the skip was built for, so the page shows as usual.
+    const destination = new URLSearchParams(location.search).get(
+      "tangoIngressUrl",
+    );
+    if (!destination?.startsWith("/checkout/")) return;
+
+    const skippedAt = Number(sessionStorage.getItem(UPSELL_SKIPPED_KEY));
+    if (Date.now() - skippedAt < UPSELL_LOOP_WINDOW_MS) return;
+    sessionStorage.setItem(UPSELL_SKIPPED_KEY, String(Date.now()));
+
+    location.replace(CHECKOUT_ENTRY_PATH + location.search);
   }
 
   // Toasts

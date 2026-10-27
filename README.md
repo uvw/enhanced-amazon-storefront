@@ -10,8 +10,14 @@ Clicking **Add to cart** adds the item without leaving the product page. A toast
 confirms the add and shows your cart subtotal, and the cart sidebar updates in
 place. If the add fails, the toast offers to retry the standard way.
 
-Buy Now and checkout work as usual. Amazon's protection plan and accessory
-pop-ups don't appear.
+Buy Now works as usual. Amazon's protection plan and accessory pop-ups don't
+appear.
+
+### Skip "Need anything else?" before checkout
+
+Clicking **Proceed to checkout** in the cart goes straight to checkout, skipping
+Amazon's "Need anything else?" upsell page. You still review your order and
+click **Place your order** yourself.
 
 ## Install
 

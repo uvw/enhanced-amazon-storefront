@@ -13,6 +13,7 @@ body:
       description: Which enhancement is affected?
       options:
         - Stay on page after Add to cart
+        - Skip "Need anything else?" before checkout
         - Not sure
     validations:
       required: true
