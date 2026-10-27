@@ -1,0 +1,76 @@
+name: Build and release
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: lts/*
+          cache: npm
+
+      - run: npm ci
+      - run: npm run check
+      - run: npm run build
+
+      - name: Read version
+        id: version
+        run: |
+          version=$(sed -n 's|^// @version *||p' enhanced-amazon-storefront.user.js)
+          package_version=$(node -p 'require("./package.json").version')
+          if [ "$version" != "$package_version" ]; then
+            echo "::error::@version $version does not match package.json version $package_version"
+            exit 1
+          fi
+          tag="v$version"
+          echo "tag=$tag" >> "$GITHUB_OUTPUT"
+          if git rev-parse -q --verify "refs/tags/$tag" >/dev/null; then
+            echo "$tag is already released"
+            echo "new=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "new=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Publish release
+        if:
+          github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+          && steps.version.outputs.new == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ steps.version.outputs.tag }}
+          REPO_URL: ${{ github.server_url }}/${{ github.repository }}
+        run: |
+          previous=$(git describe --tags --abbrev=0 2>/dev/null || true)
+          range=${previous:+$previous..}HEAD
+          {
+            echo "## Changes"
+            echo
+            git log --no-merges --format='- %s' "$range"
+            echo
+            echo "## Install"
+            echo
+            echo "Install the [full script](https://raw.githubusercontent.com/${GITHUB_REPOSITORY}/main/enhanced-amazon-storefront.user.js) or the [minified script]($REPO_URL/releases/latest/download/enhanced-amazon-storefront.min.user.js) in Tampermonkey or Violentmonkey. Both update themselves when a new version is released."
+          } > "$RUNNER_TEMP/notes.md"
+          gh release create "$TAG" \
+            enhanced-amazon-storefront.user.js \
+            dist/enhanced-amazon-storefront.min.user.js \
+            --target "$GITHUB_SHA" \
+            --title "$TAG" \
+            --notes-file "$RUNNER_TEMP/notes.md"

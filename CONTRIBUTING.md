@@ -42,7 +42,8 @@ keep the project ready to ship as a Chrome extension.
 4. Test in a real, signed-in browser as described under `Testing` in
    [AGENTS.md](AGENTS.md). Never place an order while testing, and remove what
    you added to your cart.
-5. Run `npm run check` until Prettier and ESLint pass.
+5. Run `npm run check` until Prettier and ESLint pass. The same check runs on
+   every pull request.
 6. Keep one enhancement or fix per pull request. Leave the version number alone;
    the maintainer bumps it at release time.
 
